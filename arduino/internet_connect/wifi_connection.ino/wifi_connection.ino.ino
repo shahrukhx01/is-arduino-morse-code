@@ -19,7 +19,7 @@ void loop() {
   if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
     WiFiClient client; //Declare an object of class WiFiClient
     HTTPClient http;  //Declare an object of class HTTPClient
-    http.begin(client, "http://pkbilup6j6:pqh3u4t60h@pi-consult-neural-3709294104.eu-central-1.bonsaisearch.net/morse_code/_search");  //Specify request destination
+    http.begin(client, "http://129.159.252.59");  //Specify request destination
     int httpCode = http.GET();                                  //Send the request
     if (httpCode > 0) { //Check the returning code
       String payload = http.getString();   //Get the request response payload
