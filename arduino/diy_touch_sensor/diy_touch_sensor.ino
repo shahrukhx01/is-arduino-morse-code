@@ -1,37 +1,36 @@
+/*
+REFERENCES: 
+https://forum.arduino.cc/t/capacitive-sensing-without-library/484848
+*/
 
-int input = D5; //pin 2 used for input
-int output = D0; //pin 4 used for output
+
+int input = D5; //pin D5 used for input
+int output = D0; //pin D0 used for output
+unsigned long startTime ; // to record start of loop
+unsigned long measuredTime; // to record how much it took input pin to goto high, in absence of touch it will be 0 seconds
+
 
 void setup() {
- pinMode(input,INPUT); //set input pin
+  pinMode(input,INPUT); //set input pin
   pinMode(output,OUTPUT); //set output pin
   Serial.begin(9600); //start serial communication
 }
-unsigned long start_time ;
-int lastState = HIGH;  // the previous state from the input pin
-int currentState;
-int counter  = 0;
-int times[1024];
-unsigned long total = 0;
-unsigned long measured_time;
+
 void loop() {
 
- currentState = digitalRead(input);
   digitalWrite(output,HIGH); //set output pin high
 
-   start_time = micros();
-  while( digitalRead(input) == 0){
-  ESP.wdtFeed();
-    //delay(1);
+  startTime = micros();
+  while( digitalRead(input) == 0){ // wait for the input pin to goto high
+      ESP.wdtFeed(); // keep feeding watchdog to avoid board reset
     }
-  
-    measured_time = micros() - start_time;
-    if(measured_time/1000 > 0){
-    Serial.println(measured_time/1000);
+  measuredTime = micros() - startTime;
+  if(measuredTime/1000 > 0){
+    Serial.println(measuredTime/1000);
     delay(500);
-}
+    }
 
-   digitalWrite(input, LOW);
-   digitalWrite(output, LOW);
+   digitalWrite(input, LOW); // reset input pin
+   digitalWrite(output, LOW); // reset output pin
 
 }
