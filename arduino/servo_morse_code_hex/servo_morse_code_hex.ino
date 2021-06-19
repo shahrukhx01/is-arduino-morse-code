@@ -25,7 +25,8 @@ String morseMessage; // morse string as an array
 
 void setup() {
   Serial.begin(9600);          //  setup serial
-  servoMotor.attach(SERVO_PIN);  // attaches the servo on pin 3 to the servo object
+  //servoMotor.attach(SERVO_PIN);  // attaches the servo on pin 3 to the servo object
+  servoMotor.attach(SERVO_PIN, 430, 2400);
   pinMode(PUSH_BUTTON_PIN, INPUT_PULLUP);
   Serial.println("Servo Button ");
   servoMotor.write(MIN_SERVO_ANGLE); //initial position
