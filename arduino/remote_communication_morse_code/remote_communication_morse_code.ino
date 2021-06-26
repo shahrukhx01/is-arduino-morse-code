@@ -1,10 +1,14 @@
 /*
 REFERENCES: 
+https://techtutorialsx.com/2017/12/17/esp32-arduino-http-server-getting-query-parameters/ // for webserver and webservice related
 https://arduinogetstarted.com/tutorials/arduino-button-long-press-short-press // for long short presses
 https://forum.arduino.cc/t/arduino-push-button-double-click-function/409353 // for detecting double clicks
 */
 
+#include <ESP8266WiFi.h>
 #include <Servo.h>
+#include <ESP8266WiFi.h>
+#include <ESP8266HTTPClient.h>
 Servo servoMotor;  // create servo object to control a servo
 #define SERVO_PIN D1 // pin for servo moto
 #define PUSH_BUTTON_PIN D4 // pin for push down button
@@ -17,6 +21,9 @@ const int MIN_SERVO_ANGLE = 180; //DEFAULT MOTOR HEAD POSITION - since 0 to 155 
 const int MAX_SERVO_ANGLE = 180; // stores the maxmimum angle servo motor can assume
 const int SHORT_DURATION = 500; // duration for short signal using push button will be 500 milliseconds
 const int LONG_DURATION = 2000; // duration for long signal using push button will be anything from 500 to 2000 milliseconds
+const char* WIFI_SSID = "iPhone";
+const char* WIFI_PASSWORD = "pass1234";
+const String REMOTE_IP = "98ef7d364827.ngrok.io";
 
 // Variables whose value will change with time 
 int lastState = LOW;  // the previous state from the input pin
@@ -30,19 +37,42 @@ String messageCharacters[MAX_MESSAGE_CHARACTERS]; // to hold split characters of
 int messageIndexReverse; // for iterating over morse characters conveniently.
 int messageIndex = 0; // for holding indices of message characters
 bool decoding = false; // to hold state when to decode
-
-
+WiFiServer server(80); // webserver object for listening to HTTP requests
+ 
 void setup() {
-  Serial.begin(9600);          //  setup serial
-  //servoMotor.attach(SERVO_PIN);  // attaches the servo on pin 3 to the servo object
+  Serial.begin(9600);
+  delay(10);
+ 
+  // connect to WiFi network
+  Serial.print("Connecting to ");
+  Serial.println(WIFI_SSID);
+ 
+  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+ 
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+ 
+  // start the server
+  server.begin();
+  Serial.println("Server started");
+ 
+  // print the IP address
+  Serial.print("Use this URL : ");
+  Serial.print("http://");
+  Serial.print(WiFi.localIP());
+  Serial.println("/");
+ // once the web server is setup configure push button and servo motor
   servoMotor.attach(SERVO_PIN, 430, 2400);
   pinMode(PUSH_BUTTON_PIN, INPUT_PULLUP);
   servoMotor.write(MIN_SERVO_ANGLE); //initial position
 }
-
-
-
+ 
 void loop() {
+
   // read the state of the switch/button:
   currentState = digitalRead(PUSH_BUTTON_PIN);
 
@@ -72,11 +102,13 @@ void loop() {
       Serial.println(morseMessage);
     }
     else if( pressDuration > LONG_DURATION && pushNumber == 1 ){ // detects if the button press was too long
-      Serial.println("decoding ...");
-      Serial.println(morseMessage);
-      parseMessage(morseMessage);
-      morseMessage = ""; //reset message string
-      decoding = true;      
+      Serial.println("http://"+REMOTE_IP+"/message="+morseMessage+"&"); // log the destination address with message
+      WiFiClient client; // declare an object of class WiFiClient
+      HTTPClient http;  // declare an object of class HTTPClient
+      http.begin(client, "http://"+REMOTE_IP+"/message="+morseMessage);  // specify request destination
+      int httpCode = http.GET(); // send the request
+      http.end();   // close connection
+      morseMessage = "";
     }else if( pushNumber == 2 ){ // detects if the button was pressed twice
       morseMessage.concat(" "); // if double click then add space
       Serial.println(morseMessage);
@@ -99,9 +131,49 @@ void loop() {
     }
   
   // save the the last state
-  lastState = currentState; 
+  lastState = currentState;
+
   
+  // Check if a client has connected
+  WiFiClient client = server.available();
+  if (!client) {
+    return;
+  }
+ 
+  // wait until the client sends some data
+  Serial.println("new client");
+  while(!client.available()){
+    delay(1);
+  }
+ 
+  // read the first line of the request
+  String request = client.readStringUntil('\r');
+  Serial.println(request);
+  client.flush();
+ 
+  // listen and process the request when receieved
+  if (request.indexOf("message=") != -1) {
+    String remoteMorseMessage = request.substring(request.indexOf("=")+1, request.indexOf("&")); // '=' char marks the start of morse message and '&' marks end of message
+    remoteMorseMessage.replace("%20", " "); // decode encoded spaces => %20 using replace function
+    remoteMorseMessage.trim(); // remove any extra white space at the corners of the message
+    Serial.println("decoding ...");
+    Serial.println(remoteMorseMessage);
+    parseMessage(remoteMorseMessage);
+    decoding = true;      
+  } 
+  // return the response to client
+  client.println("HTTP/1.1 200 OK");
+  client.println("Content-Type: application/json");
+  client.println(""); //  do not forget this one
+  client.println("{\"result\": true}");
+ 
+
 }
+
+
+/*
+Re-using the code from default pipeline for processing and actuation
+*/
 
 void parseMessage(String message){
   int index = 0;
