@@ -5,8 +5,6 @@ https://forum.arduino.cc/t/arduino-push-button-double-click-function/409353 // f
 */
 
 #include <Servo.h>
-#include <stdio.h>
-#include <string.h>
 Servo servoMotor;  // create servo object to control a servo
 #define SERVO_PIN D1 // pin for servo moto
 #define PUSH_BUTTON_PIN D4 // pin for push down button
@@ -95,16 +93,7 @@ void loop() {
   }
   // once the message has been parsed and decoding flag is on, we can do actuation.
   if(decoding && messageIndex >= 0){
-     Serial.print("flag :");
-     Serial.print(decoding);
-     Serial.println("");
-     Serial.print("forward index :");
-     Serial.print(messageIndexReverse);
-     Serial.println("");
-     Serial.print("backward index :");
-     Serial.print(messageIndex);
-     Serial.println("");
-     Serial.print("message :");
+     Serial.print("morse character :");
      Serial.print(messageCharacters[messageIndexReverse]);
      Serial.println("");
     decodeMorseCode(messageCharacters[messageIndexReverse]);
