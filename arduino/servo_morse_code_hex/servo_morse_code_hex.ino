@@ -14,7 +14,7 @@ const int ANGLE_STEP = 11; // step size for  angle  for servo (beteen 1 and 179)
 const int MIN_SERVO_ANGLE = 5; // stores the minimum angle servo motor can assume
 const int MAX_SERVO_ANGLE = 180; // stores the maxmimum angle servo motor can assume
 const int SHORT_DURATION = 500; // duration for short signal using push button will be 500 milliseconds
-const int LONG_DURATION = 2000; // duration for long signal using push button will be anything from 500 to 1000 milliseconds
+const int LONG_DURATION = 2000; // duration for long signal using push button will be anything from 500 to 2000 milliseconds
 
 // Variables whose value will change with time 
 int lastState = LOW;  // the previous state from the input pin
