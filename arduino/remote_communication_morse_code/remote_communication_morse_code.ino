@@ -3,7 +3,13 @@ REFERENCES:
 https://techtutorialsx.com/2017/12/17/esp32-arduino-http-server-getting-query-parameters/ // for webserver and webservice related
 https://arduinogetstarted.com/tutorials/arduino-button-long-press-short-press // for long short presses
 https://forum.arduino.cc/t/arduino-push-button-double-click-function/409353 // for detecting double clicks
+
+-- docs:
+command to make arduino server public on internet: `./ngrok http http://172.20.10.6/`
+
 */
+
+
 
 #include <ESP8266WiFi.h>
 #include <Servo.h>
