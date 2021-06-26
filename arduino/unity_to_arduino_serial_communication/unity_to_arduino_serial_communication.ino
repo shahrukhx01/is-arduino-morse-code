@@ -16,6 +16,7 @@ void loop() {
 if (Serial.read() == 49){
   Serial.flush(); // wait for the serial communication to complete
   digitalWrite(PIN_NUMBER, LOW);
+  Serial.println("Signal received from Unity");
   delay(1000); // key LED on for 1 second for demonstration
  } else{
   Serial.flush(); // wait for the serial communication to complete
