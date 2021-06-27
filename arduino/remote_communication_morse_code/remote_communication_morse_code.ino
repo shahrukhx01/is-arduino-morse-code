@@ -11,7 +11,7 @@ command to make arduino server public on internet: `./ngrok http http://172.20.1
 
 
 
-#include <ESP8266WiFi.h>
+
 #include <Servo.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
@@ -29,7 +29,7 @@ const int SHORT_DURATION = 500; // duration for short signal using push button w
 const int LONG_DURATION = 2000; // duration for long signal using push button will be anything from 500 to 2000 milliseconds
 const char* WIFI_SSID = "iPhone";
 const char* WIFI_PASSWORD = "pass1234";
-const String REMOTE_IP = "98ef7d364827.ngrok.io";
+const String REMOTE_IP = "7333ed46b461.ngrok.io";
 
 // Variables whose value will change with time 
 int lastState = LOW;  // the previous state from the input pin
@@ -162,7 +162,7 @@ void loop() {
     String remoteMorseMessage = request.substring(request.indexOf("=")+1, request.indexOf("&")); // '=' char marks the start of morse message and '&' marks end of message
     remoteMorseMessage.replace("%20", " "); // decode encoded spaces => %20 using replace function
     remoteMorseMessage.trim(); // remove any extra white space at the corners of the message
-    Serial.println("decoding ...");
+    Serial.println("decoding");
     Serial.println(remoteMorseMessage);
     parseMessage(remoteMorseMessage);
     decoding = true;      

@@ -27,7 +27,7 @@ String morseMessage; // morse string as an array
 unsigned long doubleClickTimeLimit = 0; // when the button is first time pushed, then we attach time if it's clicked within that we take that as double click
 int pushNumber = 0; // to record number of pushes
 String messageCharacters[MAX_MESSAGE_CHARACTERS]; // to hold split characters of morse code
-int messageIndexReverse; // for iterating over morse characters conveniently.
+int messageIndexReverse = 0; // for iterating over morse characters conveniently.
 int messageIndex = 0; // for holding indices of message characters
 bool decoding = false; // to hold state when to decode
 
@@ -72,7 +72,7 @@ void loop() {
       Serial.println(morseMessage);
     }
     else if( pressDuration > LONG_DURATION && pushNumber == 1 ){ // detects if the button press was too long
-      Serial.println("decoding ...");
+      Serial.println("decoding");
       Serial.println(morseMessage);
       parseMessage(morseMessage);
       morseMessage = ""; //reset message string
@@ -82,7 +82,7 @@ void loop() {
       Serial.println(morseMessage);
     }
     pushNumber = 0;
-  }
+  } 
   // once the message has been parsed and decoding flag is on, we can do actuation.
   if(decoding && messageIndex >= 0){
      Serial.print("morse character :");
