@@ -123,10 +123,12 @@ void loop() {
   }
   // once the message has been parsed and decoding flag is on, we can do actuation.
   if(decoding && messageIndex >= 0){
+     String morseCharText = messageCharacters[messageIndexReverse];
+     morseCharText.trim();
      Serial.print("morse character :");
-     Serial.print(messageCharacters[messageIndexReverse]);
+     Serial.print(morseCharText);
      Serial.println("");
-    decodeMorseCode(messageCharacters[messageIndexReverse]);
+    decodeMorseCode(morseCharText);
     messageIndex--;
     messageIndexReverse++;
     if (messageIndex < 0) {
