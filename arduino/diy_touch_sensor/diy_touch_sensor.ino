@@ -4,7 +4,7 @@ https://forum.arduino.cc/t/capacitive-sensing-without-library/484848
 */
 #include <Servo.h>
 Servo servoMotor;  // create servo object to control a servo
-#define SERVO_PIN D5 // pin for servo moto
+#define SERVO_PIN D8 // pin for servo moto
 #define INPUT_PIN D2 //pin D2 used for input
 #define OUTPUT_PIN D1 // pin for output
 #define MAX_MESSAGE_CHARACTERS 1000
@@ -30,6 +30,8 @@ void setup() {
   pinMode(INPUT_PIN, INPUT); //set short input pin
   pinMode(OUTPUT_PIN, OUTPUT); //set short output pin  
   Serial.begin(500000); //start serial communication
+  servoMotor.attach(SERVO_PIN, 430, 2400);
+  servoMotor.write(MIN_SERVO_ANGLE); //initial position
 }
 
 void loop() {
