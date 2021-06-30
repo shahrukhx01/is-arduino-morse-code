@@ -27,9 +27,9 @@ const int MIN_SERVO_ANGLE = 180; //DEFAULT MOTOR HEAD POSITION - since 0 to 155 
 const int MAX_SERVO_ANGLE = 180; // stores the maxmimum angle servo motor can assume
 const int SHORT_DURATION = 500; // duration for short signal using push button will be 500 milliseconds
 const int LONG_DURATION = 2000; // duration for long signal using push button will be anything from 500 to 2000 milliseconds
-const char* WIFI_SSID = "iPhone";
-const char* WIFI_PASSWORD = "pass1234";
-const String REMOTE_IP = "7333ed46b461.ngrok.io";
+const char* WIFI_SSID = "iPhone"; // WIFI NAME
+const char* WIFI_PASSWORD = "pass1234"; // WIFI PASSWORD
+const String REMOTE_IP = "7333ed46b461.ngrok.io"; // IP ADDRESS OF ADRDUINO BOARD ON Local network/ Internet (using ngrok), default value for us: 172.20.10.6
 
 // Variables whose value will change with time 
 int lastState = LOW;  // the previous state from the input pin
