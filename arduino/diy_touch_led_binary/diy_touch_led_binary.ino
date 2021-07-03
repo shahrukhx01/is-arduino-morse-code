@@ -26,7 +26,7 @@ bool decoding = false; // to hold state when to decode
 void setup() {
   pinMode(INPUT_PIN, INPUT); //set short input pin
   pinMode(OUTPUT_PIN, OUTPUT); //set short output pin  
-  Serial.begin(500000); //start serial communication
+  Serial.begin(9600); //start serial communication
   pinMode(LED_PIN, OUTPUT); // set LED pins for out, D8 for representing binary 1s
   pinMode(LED_BUILTIN, OUTPUT); // set LED pins for out, LED_BUILTIN for representing binary 0s
   digitalWrite(LED_PIN, LOW);
@@ -200,7 +200,7 @@ void decodeMorseCode(String message){
     String binaryCode[8] = {"0","1","0","1","0","0","1","0"};
     actuateLED(binaryCode);
   }else if (message.equals("...")){ // corresponds to 'S'
-    String binaryCode[8] = {"0","1","0","1","0","0","1","0"};
+    String binaryCode[8] = {"0","1","0","1","0","0","1","1"};
     actuateLED(binaryCode);
   }else if (message.equals("_")){ // corresponds to 'T'
     String binaryCode[8] = {"0","1","0","1","0","1","0","0"};
@@ -284,10 +284,12 @@ void actuateLED(String actuationBinaryCode[]){
  // turns on or keeps LED off
 void setLEDValue(int signal, int duration){
   if(signal == 1) {
+    Serial.println(signal);
     digitalWrite(LED_PIN, HIGH);
     delay(duration);
     digitalWrite(LED_PIN, LOW);
   }else if(signal == 0){
+    Serial.println(signal);
     delay(duration);
     }else if(signal == -1){
     digitalWrite(LED_PIN, LOW);

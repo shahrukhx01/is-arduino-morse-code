@@ -29,7 +29,7 @@ bool decoding = false; // to hold state when to decode
 void setup() {
   pinMode(INPUT_PIN, INPUT); //set short input pin
   pinMode(OUTPUT_PIN, OUTPUT); //set short output pin  
-  Serial.begin(500000); //start serial communication
+  Serial.begin(9600); //start serial communication
   servoMotor.attach(SERVO_PIN, 430, 2400);
   servoMotor.write(MIN_SERVO_ANGLE); //initial position
 }
