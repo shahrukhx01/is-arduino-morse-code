@@ -4,7 +4,7 @@ Project repository for Interactive systems.
   - [Demo Video](https://youtu.be/swIX8NgQKOY) 
   - [Arduino Code](https://github.com/shahrukhx01/is-arduino-morse-code/blob/main/arduino/servo_morse_code_hex/servo_morse_code_hex.ino)
 - Alternative Pipeline (DIY Touch Sensor Morse code to Hexadecimal Servo Actuator)
-  - [Demo Video](https://youtu.be/3lufLx7ASeU)
+  - [Demo Video](https://youtu.be/fHXokW3r_gQ)
   - [Arduino Code](https://github.com/shahrukhx01/is-arduino-morse-code/blob/main/arduino/diy_touch_sensor/diy_touch_sensor.inoo)
 - Alternative Pipeline 2 {BONUS} (DIY Touch Sensor Morse code to Binary LED Actuator)
   - [Demo Video](https://www.youtube.com/watch?v=yAmatiG_Iu0&ab_channel=Shahrukhkhan)
