@@ -1,6 +1,7 @@
 # is-arduino-morse-code
 Project repository for Interactive systems.
 - Mandatory Pipeline (Morse code to Hexadecimal Servo Actuator)
+- - [Arduino Code](https://github.com/shahrukhx01/is-arduino-morse-code/blob/main/arduino/servo_morse_code_hex/servo_morse_code_hex.ino)
 - Alternative Pipeline (DIY Touch Sensor Morse code to Hexadecimal Servo Actuator)
 - Alternative Pipeline 2 {BONUS} (DIY Touch Sensor Morse code to Binary LED Actuator)
 - Unity to Arduino Communication {BONUS}
