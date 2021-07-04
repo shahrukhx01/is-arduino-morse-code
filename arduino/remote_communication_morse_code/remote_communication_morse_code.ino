@@ -17,7 +17,7 @@ command to make arduino server public on internet: `./ngrok http http://172.20.1
 #include <ESP8266HTTPClient.h>
 Servo servoMotor;  // create servo object to control a servo
 #define SERVO_PIN D1 // pin for servo moto
-#define PUSH_BUTTON_PIN D4 // pin for push down button
+#define PUSH_BUTTON_PIN D3 // pin for push down button
 #define MAX_MESSAGE_CHARACTERS 1000
 
 
@@ -29,7 +29,7 @@ const int SHORT_DURATION = 500; // duration for short signal using push button w
 const int LONG_DURATION = 2000; // duration for long signal using push button will be anything from 500 to 2000 milliseconds
 const char* WIFI_SSID = "iPhone"; // WIFI NAME
 const char* WIFI_PASSWORD = "pass1234"; // WIFI PASSWORD
-const String REMOTE_IP = "7333ed46b461.ngrok.io"; // IP ADDRESS OF ADRDUINO BOARD ON Local network/ Internet (using ngrok), default value for us: 172.20.10.6
+const String REMOTE_IP = "d41bf4e24f18.ngrok.io"; // IP ADDRESS OF ADRDUINO BOARD ON Local network/ Internet (using ngrok), default value for us: 172.20.10.6
 
 // Variables whose value will change with time 
 int lastState = LOW;  // the previous state from the input pin
@@ -108,6 +108,7 @@ void loop() {
       Serial.println(morseMessage);
     }
     else if( pressDuration > LONG_DURATION && pushNumber == 1 ){ // detects if the button press was too long
+      morseMessage.replace(" ", "%20"); // encode spaces with %20
       Serial.println("http://"+REMOTE_IP+"/message="+morseMessage+"&"); // log the destination address with message
       WiFiClient client; // declare an object of class WiFiClient
       HTTPClient http;  // declare an object of class HTTPClient
